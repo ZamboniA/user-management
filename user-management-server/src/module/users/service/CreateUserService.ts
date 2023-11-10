@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import AppError from '../../../shared/errors/AppError';
+import { hash } from 'bcryptjs';
 
 
 const prisma = new PrismaClient();
@@ -18,11 +19,14 @@ class CreateUserService {
             throw new AppError('Email adress already used.', 500);
     }
 
+    const hashPassword = await hash(password, 8);
+
+
     const user = await prisma.user.create({
         data: {
             name,
             email,
-            password,
+            password: hashPassword,
         },
     });
 
