@@ -7,7 +7,12 @@ const usersRouter = Router();
 
 const usersController = new UsersController();
 
-
+usersRouter.get('/:id',
+    usersController.index
+)
+usersRouter.get('/',
+    usersController.index
+)
 usersRouter.post(
     '/',
     usersController.create
