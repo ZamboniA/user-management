@@ -18,4 +18,18 @@ model User {
   avatar     String?  @db.VarChar(255)
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
+
+  user_tokens User_Tokens[]
+}
+
+
+model User_Tokens {
+  id         String   @id @db.Uuid @default(dbgenerated("uuid_generate_v4()"))
+  token      String   @db.Uuid @default(dbgenerated("uuid_generate_v4()"))
+  user_id    String   @db.Uuid
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+
+  @@index([user_id], name: "user_tokens_user_id_index")
+  author User @relation(fields: [user_id], references: [id])
 }
